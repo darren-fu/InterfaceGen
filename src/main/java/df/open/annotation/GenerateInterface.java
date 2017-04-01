@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * <p/>
  * Copyright: Copyright (c)
  * <p/>
- * Company: 江苏千米网络科技有限公司
+ * Company:
  * <p/>
  *
  * @author 付亮(OF2101)
