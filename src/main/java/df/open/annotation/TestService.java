@@ -12,7 +12,7 @@ package df.open.annotation;
  * @version 1.0.0
  * @date 2016/10/11
  */
-//@GenerateInterface
+@GenerateInterface
 public class TestService {
     //教书
     private void teach(){

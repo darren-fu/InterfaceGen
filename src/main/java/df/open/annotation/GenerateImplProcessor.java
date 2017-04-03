@@ -1,8 +1,11 @@
 package df.open.annotation;
 
+import com.squareup.javapoet.TypeName;
+
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.ExecutableType;
@@ -60,12 +63,12 @@ public class GenerateImplProcessor extends AbstractProcessor {
         Set<? extends Element> genElements = roundEnv
                 .getElementsAnnotatedWith(GenerateImpl.class);
         for (Element e : genElements) {
-            System.out.println(">>> " + e.getSimpleName());
+            System.out.println(">>> " + e.getSimpleName() + ",element :" + e);
             GenerateImpl gi = e.getAnnotation(GenerateImpl.class);
             String className = e.getSimpleName() + gi.suffix();
-            String pkgPath = e.getClass().getCanonicalName().replaceFirst("\\." + e.getSimpleName() + "$", "");
+            String pkgPath =e.getEnclosingElement().toString();// e.getClass().getCanonicalName().replaceFirst("\\." + e.getSimpleName() + "$", "");
             String classString =
-                    "package" + pkgPath + ";\n"
+                    "package " + pkgPath + ";\n"
                             + "public class " + className + " implements " + e.getSimpleName() + "{\n";
             //获取所有的方法元素
             List<? extends Element> genElementAlls = e.getEnclosedElements();
@@ -74,6 +77,9 @@ public class GenerateImplProcessor extends AbstractProcessor {
             for (Element e1 : genElementAlls) {
                 System.out.println(">>> >>> " + e1.getSimpleName()
                         + " 修饰符：" + e1.getModifiers());
+                System.out.println(">>> >>> TypeName: " + TypeName.get(((ExecutableElement) e1).getReturnType()));
+
+
                 if (!e1.getSimpleName().toString().equals("<init>")
                         && e1.asType() instanceof ExecutableType && isPublic(e1)) {
                     System.out.println(">>> >>> >>> " + e1.getSimpleName());
